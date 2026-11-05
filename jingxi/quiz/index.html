@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>心理測驗・靜息</title>
+<meta name="description" content="讀一段小故事，憑直覺選一個答案，看看你的選擇藏著什麼樣的自己。">
+<meta property="og:title" content="心理測驗・你會選哪一個？">
+<meta property="og:description" content="讀一段小故事，憑直覺選答案。來自 App「靜息 - 糯糯陪你呼吸」。">
+<meta property="og:image" content="https://vhjcvccvf2-cell.github.io/bwk-data/jingxi/quiz/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="apple-itunes-app" content="app-id=6829939217">
+<style>
+:root{--bg:#fff6f8;--ink:#3b3350;--muted:#8a7a92;--pink:#e2789c;--card:#fff;--line:#f3dbe4;--accent:#7b6cf0}
+@media (prefers-color-scheme:dark){:root{--bg:#1b1726;--ink:#f1ecfa;--muted:#b3a8c2;--card:#262035;--line:#3a3150;--pink:#f39ab8}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:linear-gradient(180deg,#f8c6d6 0,var(--bg) 260px);background-repeat:no-repeat;background-color:var(--bg);color:var(--ink);
+  font-family:-apple-system,"SF Pro Rounded","PingFang TC","Hiragino Sans","Noto Sans CJK TC","Noto Sans JP",sans-serif;line-height:1.65;min-height:100vh}
+:lang(zh-Hans) body{font-family:-apple-system,"PingFang SC","Noto Sans CJK SC",sans-serif}
+:lang(ja) body{font-family:-apple-system,"Hiragino Sans","Hiragino Maru Gothic ProN","Noto Sans JP",sans-serif}
+main{max-width:520px;margin:0 auto;padding:28px 16px 48px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#5a3550}
+.brand i{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#7b6cf0,#c9b8ff);display:grid;place-items:center;font-style:normal;font-size:20px}
+h1{font-size:24px;line-height:1.35;margin:18px 0 6px}
+.sub{color:var(--muted);font-size:14px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-top:16px;box-shadow:0 8px 24px rgba(160,80,110,.08)}
+.story{font-size:16px}
+.q{font-weight:800;font-size:18px;text-align:center;margin:18px 0 10px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts button{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px;text-align:left;cursor:pointer}
+.opts button:active{transform:scale(.98)}
+.opts em{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:800;background:var(--pink);color:#fff}
+.res{text-align:center;background:linear-gradient(145deg,#fde3ec,#fff1e0);color:#4a3346;border:0}
+.res small{color:#a0607a}.res b{display:block;font-size:26px;line-height:1.3;margin:6px 0}
+.tip b{display:block;font-size:13px;color:var(--muted)}
+details summary{cursor:pointer;font-weight:700}
+details div{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+details em{font-style:normal;font-size:13px;color:var(--muted)}details p{margin:2px 0 0;font-size:14.5px}
+.cta{text-align:center;background:linear-gradient(145deg,#7b6cf0,#a493f0);color:#fff;border:0}
+.cta p{margin:0 0 12px}
+.btn{display:inline-block;padding:12px 22px;border-radius:99px;background:#fff;color:#5d4fa6;font-weight:800;text-decoration:none}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.ghost{text-decoration:none;padding:10px 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.list a{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700}
+.list small{color:var(--muted);font-weight:500}
+.note{color:var(--muted);font-size:12.5px;text-align:center;margin-top:22px}
+.langs{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.langs a{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main id="app"><p class="sub">…</p></main>
+<script>
+"use strict";
+const APP = "https://apps.apple.com/app/id6829939217";
+const L10N = {
+  "zh-Hant": { brand:"靜息・心理測驗", list:"選一個故事，憑直覺回答", pick:"你會選哪一個？", you:"你選了", tip:"今天試試", others:"看看其他選項的意思", again:"再測一次", more:"更多心理測驗",
+    ctaT:"靜息 App 裡還有更多心理測驗、每日靈籤、星座排名，和陪你呼吸、助眠的糯糯。", ctaB:"免費下載靜息", share:"考考朋友", copied:"已複製連結",
+    shareText:"我在玩心理測驗「{t}」，你會選哪一個？", mine:"我測出來是「{r}」！換你測測看：「{t}」", app:"靜息 - 糯糯陪你呼吸" },
+  "zh-Hans": { brand:"静息・心理测验", list:"选一个故事，凭直觉回答", pick:"你会选哪一个？", you:"你选了", tip:"今天试试", others:"看看其他选项的意思", again:"再测一次", more:"更多心理测验",
+    ctaT:"静息 App 里还有更多心理测验、每日灵签、星座排名，和陪你呼吸、助眠的糯糯。", ctaB:"免费下载静息", share:"考考朋友", copied:"已复制链接",
+    shareText:"我在玩心理测验“{t}”，你会选哪一个？", mine:"我测出来是“{r}”！换你测测看：“{t}”", app:"静息 - 糯糯陪你呼吸" },
+  en: { brand:"Jingxi · Personality Quiz", list:"Pick a story and answer by instinct", pick:"Which one would you choose?", you:"You chose", tip:"Try today", others:"See what the other answers mean", again:"Try again", more:"More quizzes",
+    ctaT:"The Jingxi app has many more quizzes, daily fortunes, a zodiac ranking — and Nuonuo, a little cloud who breathes with you and helps you sleep.", ctaB:"Get Jingxi for free", share:"Quiz a friend", copied:"Link copied",
+    shareText:"Take this quiz: “{t}” — which would you choose?", mine:"I got “{r}”! Your turn: “{t}”", app:"Jingxi: Breathe with Nuonuo" },
+  ja: { brand:"静息・心理テスト", list:"ストーリーを選んで、直感で答えてね", pick:"あなたならどれを選ぶ？", you:"あなたが選んだのは", tip:"今日やってみよう", others:"ほかの選択肢の意味も見る", again:"もう一度", more:"ほかの心理テスト",
+    ctaT:"アプリ「静息」には、もっとたくさんの心理テスト、毎日のおみくじ、12星座ランキング、そして一緒に呼吸して眠りを見守るヌオヌオがいます。", ctaB:"静息を無料ダウンロード", share:"友だちに出題", copied:"リンクをコピーしました",
+    shareText:"心理テスト「{t}」、あなたならどれを選ぶ？", mine:"私は「{r}」だった！あなたも「{t}」やってみて", app:"静息 - ヌオヌオと深呼吸" }
+};
+const qs = new URLSearchParams(location.search);
+const pickLang = () => {
+  const l = qs.get("l"); if (l && L10N[l]) return l;
+  for (const n of (navigator.languages || [navigator.language || ""])){ const s = String(n).toLowerCase();
+    if (/^zh-(hant|tw|hk|mo)/.test(s)) return "zh-Hant"; if (/^zh/.test(s)) return "zh-Hans"; if (s.startsWith("ja")) return "ja"; if (s.startsWith("en")) return "en"; }
+  return "en";
+};
+const lang = pickLang(), S = L10N[lang];
+document.documentElement.lang = lang;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" })[c]);
+const $ = id => document.getElementById(id);
+const fill = (t, o) => t.replace(/\{(\w)\}/g, (m, k) => o[k] || "");
+const link = (id, extra = "") => `?q=${encodeURIComponent(id)}&l=${lang}${extra}`;
+let DATA;
+const head = () => `<div class="brand"><i>☁︎</i>${esc(S.brand)}</div>`;
+const langs = id => `<div class="langs">${Object.keys(L10N).map(k => `<a href="?${id ? "q=" + encodeURIComponent(id) + "&" : ""}l=${k}">${{ "zh-Hant":"繁體中文", "zh-Hans":"简体中文", en:"English", ja:"日本語" }[k]}</a>`).join("・")}</div>`;
+const cta = () => `<div class="card cta"><p>${esc(S.ctaT)}</p><a class="btn" href="${APP}">${esc(S.ctaB)}</a></div>`;
+async function share(q, mine){
+  const url = new URL(link(q.id), location.href).href;
+  const text = mine != null ? fill(S.mine, { r:q.opts[mine].r, t:q.title }) : fill(S.shareText, { t:q.title });
+  try{ if (navigator.share){ await navigator.share({ title:q.title, text, url }); return; } }catch(e){ if (e && e.name === "AbortError") return; }
+  try{ await navigator.clipboard.writeText(text + "\n" + url); alert(S.copied); }catch(e){ prompt("", text + "\n" + url); }
+}
+function list(){
+  document.title = S.brand;
+  $("app").innerHTML = `${head()}<h1>${esc(S.list)}</h1><div class="list">${DATA.quizzes.filter(q => q.free).map(q => `<a href="${link(q.id)}">${esc(q.title)}<small>${esc((DATA.cats.find(c => c.id === q.cat) || {}).name || "")} ›</small></a>`).join("")}</div>${cta()}<p class="note">${esc(DATA.note)}</p>${langs()}`;
+}
+function play(q){
+  document.title = q.title + "・" + S.brand;
+  $("app").innerHTML = `${head()}<h1>${esc(q.title)}</h1><div class="card story">${esc(q.story)}</div><p class="q">${esc(q.q)}</p>
+    <div class="opts">${q.opts.map((o, i) => `<button type="button" data-i="${i}"><em>${"ABCD"[i]}</em><span>${esc(o.t)}</span></button>`).join("")}</div>
+    <div class="row"><button class="ghost" type="button" id="sh">${esc(S.share)}</button><a class="ghost" href="?l=${lang}">${esc(S.more)}</a></div>
+    <p class="note">${esc(DATA.note)}</p>${langs(q.id)}`;
+  document.querySelectorAll(".opts button").forEach(b => b.onclick = () => result(q, +b.dataset.i));
+  $("sh").onclick = () => share(q);
+  scrollTo(0, 0);
+}
+function result(q, i){
+  const o = q.opts[i];
+  $("app").innerHTML = `${head()}<h1>${esc(q.title)}</h1>
+    <div class="card res"><small>${esc(S.you)} ${"ABCD"[i]}・${esc(o.t)}</small><b>${esc(o.r)}</b><p>${esc(o.d)}</p></div>
+    <div class="card tip"><b>${esc(S.tip)}</b>${esc(o.tip)}</div>
+    <details class="card"><summary>${esc(S.others)}</summary>${q.opts.map((x, k) => k === i ? "" : `<div><em>${"ABCD"[k]}・${esc(x.t)}</em><br><b>${esc(x.r)}</b><p>${esc(x.d)}</p></div>`).join("")}</details>
+    <div class="row"><button class="ghost" type="button" id="sh">${esc(S.share)}</button><button class="ghost" type="button" id="ag">${esc(S.again)}</button><a class="ghost" href="?l=${lang}">${esc(S.more)}</a></div>
+    ${cta()}<p class="note">${esc(DATA.note)}</p>${langs(q.id)}`;
+  $("sh").onclick = () => share(q, i);
+  $("ag").onclick = () => play(q);
+  scrollTo(0, 0);
+}
+(async () => {
+  try{ DATA = await (await fetch(`quiz-${lang}.json`)).json(); }catch(e){ $("app").textContent = "…"; return; }
+  const q = DATA.quizzes.find(x => x.id === qs.get("q"));
+  q ? play(q) : list();
+})();
+</script>
+</body>
+</html>
