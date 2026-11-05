@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><title>send</title>
+<body style="font:16px sans-serif;padding:20px">傳送截圖中…
+<script>
+// 把同目錄的截圖傳給開啟這頁的 App Store Connect 分頁（只送給 appstoreconnect.apple.com）
+const target = window.opener || (window.parent !== window ? window.parent : null);
+const names = (new URLSearchParams(location.search).get("f") || "iap-review-paywall.png").split(",");
+(async () => {
+  if (!target) { document.body.textContent = "沒有可傳送的分頁"; return; }
+  const files = [];
+  for (const n of names) { const r = await fetch(n); files.push({ name: n, type: r.headers.get("content-type") || "image/png", buf: await r.arrayBuffer() }); }
+  target.postMessage({ jingxiShots: files }, "https://appstoreconnect.apple.com");
+  document.body.textContent = "已傳送 " + files.length + " 個檔案，可以關閉這頁";
+})();
+</script>
