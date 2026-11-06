@@ -1,8 +1,0 @@
-<!doctype html><meta charset="utf-8"><title>send</title>
-<script>
-fetch('review.png',{cache:'no-store'}).then(r=>r.arrayBuffer()).then(b=>{
-  const t=window.opener||window.parent;
-  t.postMessage({kind:'bwk-review-png',buf:b},'https://appstoreconnect.apple.com');
-  document.title='sent '+b.byteLength;
-});
-</script>
