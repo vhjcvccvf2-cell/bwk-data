@@ -1,0 +1,18 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>找人一起睡的邀請・靜息</title>
+<meta property="og:title" content="一起來夜雨小屋聽雨睡覺吧"><meta property="og:description" content="靜息 App 的夜雨小屋：大家一起聽雨，不用露臉、不用找話題。">
+<style>body{margin:0;min-height:100vh;background:linear-gradient(180deg,#131638,#2a2350);color:#e9e7fb;font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;display:flex;align-items:center;justify-content:center;text-align:center}
+main{max-width:420px;padding:32px 22px}h1{font-size:1.5rem;margin:.2em 0}.code{font-size:2.2rem;font-weight:800;letter-spacing:.25em;background:rgba(255,255,255,.1);border-radius:16px;padding:12px 0;margin:18px 0}
+a.btn{display:block;background:#b9aaff;color:#17162b;text-decoration:none;font-weight:800;border-radius:18px;padding:15px;margin:12px 0}a.sub{color:#c9c6ee}p{line-height:1.7;color:#c9c6ee}</style></head><body><main>
+<div style="font-size:52px">🌧️🛏️🛏️</div>
+<h1>朋友邀你一起睡</h1>
+<p>在靜息的「找人一起睡」，小屋裡一人一張床，大家一起聽同一場雨入睡。</p>
+<div class="code" id="code">------</div>
+<a class="btn" id="open" href="#">用靜息打開</a>
+<p>還沒有靜息？先<a class="sub" href="https://apps.apple.com/app/id6829939217">到 App Store 下載</a>，打開後到首頁「找人一起睡」→ 右邊「邀請碼」→ 輸入上面的邀請碼。</p>
+<p style="font-size:.8rem;opacity:.7">邀請碼 24 小時內有效</p>
+<script>
+var c=(new URLSearchParams(location.search).get("c")||"").toUpperCase().replace(/[^A-Z2-9]/g,"").slice(0,6);
+document.getElementById("code").textContent=c||"------";
+document.getElementById("open").href="jingxi://cabin?c="+c;
+</script></main></body></html>
