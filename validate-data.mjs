@@ -19,6 +19,13 @@ for (const t of TEAMS) {
     err.push(`G[${i}] 格式錯誤：${JSON.stringify(g)}`);
 });
 if (!(d.G || []).some(g => g.length === 3)) err.push("G 裡沒有未開打的比賽");
+if (d.P !== undefined) {
+  if (typeof d.P !== "object" || d.P === null || Array.isArray(d.P)) err.push("P 應為物件");
+  else for (const [k, v] of Object.entries(d.P)) {
+    const [h, a, t] = k.split("|");
+    if (!TEAMS.includes(h) || !TEAMS.includes(a) || isNaN(Date.parse(t)) || !Number.isInteger(v) || v < 0 || v > 100) err.push(`P["${k}"] 格式錯誤：${v}`);
+  }
+}
 (d.NEWS || []).forEach((n, i) => {
   for (const k of ["k", "h", "p", "s"]) if (typeof n[k] !== "string" || !n[k]) err.push(`NEWS[${i}].${k} 缺少`);
   if (!Array.isArray(n.teams) || !n.teams.every(t => TEAMS.includes(t))) err.push(`NEWS[${i}].teams 錯誤`);
