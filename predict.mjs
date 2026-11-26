@@ -1,14 +1,14 @@
-// 寫入賽前預測 P：每場還沒開打的比賽，用和 App 相同的模型算出主隊勝率（0–100 整數）。
-// 已開打的比賽沿用上一版 data.json 裡的預測，不重新計算，這樣 App 才能對照「賽前有沒有猜中」。
-// 用法：node predict.mjs data.json（在 git 專案裡執行；上一版預測從 git HEAD 的 data.json 讀取）
-import { readFileSync, writeFileSync } from "node:fs";
-import { execSync } from "node:child_process";
+// 賽前預測：每場還沒開打的比賽，用和 App 相同的模型算出主隊勝率（0–100 整數），存在 pred.json。
+// 已開打的比賽沿用 pred.json 裡的舊預測、不重算，App 才能對照「賽前有沒有猜中」。
+// 預測獨立放在 pred.json，其他只改 data.json 的更新流程不會把它洗掉。
+// 用法：node predict.mjs data.json（在 data.json 寫好之後、commit 之前執行，並把 pred.json 一起 commit）
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 
 const file = process.argv[2] || "data.json";
+const PRED = "pred.json";
 const d = JSON.parse(readFileSync(file, "utf8"));
-let prevP = {};
-try { prevP = JSON.parse(execSync(`git show HEAD:${file}`, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] })).P || {}; } catch (e) {}
-for (const [k, v] of Object.entries(d.P || {})) if (!(k in prevP)) prevP[k] = v;
+let old = {};
+if (existsSync(PRED)) { try { old = JSON.parse(readFileSync(PRED, "utf8")).P || {}; } catch (e) { old = {}; } }
 
 // ---- 以下模型與 basketball-win-king/www/app.js 相同 ----
 const REC = d.REC, I = d.I;
@@ -28,13 +28,15 @@ function homeProb(g) { const { h, a, t } = g; const rh = recent(h, t), ra = rece
   return phi(m / SIG) }
 // ---- 模型結束 ----
 
-const now = Number(process.env.PREDICT_NOW) || Date.now(), P = {};
-let fresh = 0, kept = 0;
+const now = Number(process.env.PREDICT_NOW) || Date.now();
+const P = {};
+// 舊預測：保留開賽時間在 10 天內的（已開打的就此固定）
+for (const [k, v] of Object.entries(old)) { const t = Date.parse(k.split("|")[2]); if (Number.isInteger(v) && v >= 0 && v <= 100 && t > now - 10 * 864e5) P[k] = v }
+// 未開打的比賽：用最新資料重算（開打前都可以更新）
+let fresh = 0;
 for (const g of G) {
-  const key = `${g.h}|${g.a}|${g.ts}`;
-  if (!g.done && g.t > now) { P[key] = Math.round(homeProb(g) * 100); fresh++ }
-  else if (key in prevP) { P[key] = prevP[key]; kept++ }
+  if (g.done || g.t <= now) continue;
+  P[`${g.h}|${g.a}|${g.ts}`] = Math.round(homeProb(g) * 100); fresh++;
 }
-d.P = P;
-writeFileSync(file, JSON.stringify(d, null, 1) + "\n");
-console.log(`賽前預測：新算 ${fresh} 場、沿用 ${kept} 場`);
+writeFileSync(PRED, JSON.stringify({ updated: new Date(now).toISOString(), P }, null, 1) + "\n");
+console.log(`pred.json：未開打 ${fresh} 場已寫入預測，共 ${Object.keys(P).length} 筆`);
