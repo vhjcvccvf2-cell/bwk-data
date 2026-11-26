@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>relay</title>
+<script>
+// 只回應 instagram.com 的請求：抓同網域的影片檔，用 postMessage 把位元組傳回去。
+addEventListener('message', async e => {
+  if (e.origin !== 'https://www.instagram.com') return;
+  const {id, path} = e.data || {};
+  try {
+    const r = await fetch(path, {cache: 'no-store'});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const buf = await r.arrayBuffer();
+    e.source.postMessage({id, ok: true, buf}, e.origin, [buf]);
+  } catch (err) { e.source.postMessage({id, ok: false, err: String(err)}, e.origin); }
+});
+parent.postMessage({ready: true}, 'https://www.instagram.com');
+</script>
